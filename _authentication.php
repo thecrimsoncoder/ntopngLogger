@@ -8,14 +8,13 @@
 
 namespace ntopngLogger;
 
-/** ntopng Login URL Path */
-const AUTH_URL = "http://localhost:3000/lua/login.lua?referer=localhost:3000/";
-
-/** Default Login Credentials for ntopng */
-const AUTH_USERNAME = "admin";
-const AUTH_PASSWORD = "admin";
+require_once "_settings.php";
 
 class _authentication
 {
-
+    public static function login()
+    {
+        $post_login_string = \_settings::AUTH_USERNAME_INPUT."=".\_settings::AUTH_USERNAME."&".\_settings::AUTH_PASSWORD_INPUT."=".\_settings::AUTH_PASSWORD;
+        echo("$post_login_string");
+    }
 }

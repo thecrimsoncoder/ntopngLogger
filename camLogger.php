@@ -7,3 +7,6 @@
  */
 namespace ntopngLogger;
 
+require_once "_authentication.php";
+
+_authentication::login();
