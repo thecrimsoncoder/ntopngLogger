@@ -10,8 +10,18 @@
 
 namespace ntopngLogger;
 
+require_once("_settings.php");
 
 class _cmd
 {
-
+    public static function executeCommand($cmd)
+    {
+        if(passthru(escapeshellcmd($cmd))){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
