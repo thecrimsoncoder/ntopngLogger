@@ -16,7 +16,7 @@ class _cmd
 {
     public static function executeCommand($cmd)
     {
-        if(passthru(escapeshellcmd($cmd))){
+        if(exec('start cmd.exe @cmd /k "'.$cmd.'"')){
             return true;
         }
         else

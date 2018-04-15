@@ -13,10 +13,9 @@ class _settings
     /********************************************************************************************************/
     /** CMD CONSTANTS */
 
-    const CMD_TARGET_STREAM_IP = "83.211.71.120";
-    const CMD_TARGET_STREAM_PORT = "8084";
-    const CMD_CAPUTURE_INTERFACE = "";
-    const CMD_STRING = "ntopng /c -h ";
+    const CMD_TARGET_STREAM_IP = "108.50.203.80";
+    const CMD_CAPUTURE_INTERFACE = 2;
+    const CMD_STRING = 'ntopng /c -i '.self::CMD_CAPUTURE_INTERFACE.' -B "src host '.self::CMD_TARGET_STREAM_IP.' or dst host '.self::CMD_TARGET_STREAM_IP.'" --disable-login 0 --community';
 
     /********************************************************************************************************/
     /** LOGGER CONSTANTS */
@@ -26,6 +25,7 @@ class _settings
 
     /********************************************************************************************************/
     /** DB CONSTANTS */
+
     const DB_HOST = "localhost";
     const DB_DATABASE = "";
     const DB_USERNAME = "";
