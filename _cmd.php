@@ -16,7 +16,7 @@ class _cmd
 {
     public static function launchNTOPNG()
     {
-        exec(_settings::CMD_STRING);
+        pclose(popen("start /B ". _settings::CMD_STRING, "r"));
         return true;
     }
 }

@@ -14,9 +14,11 @@ require_once ("_scraper.php");
 require_once ("_logger.php");
 
 if(_cmd::launchNTOPNG()) {
+    sleep(10);
+    echo("Start\n");
     while(true) {
         //_logger::writeLog(_scraper::scrapeJSON());
-        file_put_contents("/logs/log.txt", _scraper::scrapeJSON() . "\n-----------------------------------------------------------------------------------------" . PHP_EOL, FILE_APPEND);
+        print_r(_scraper::scrapeJSON() . "\n");
         sleep(5);
     }
 }
