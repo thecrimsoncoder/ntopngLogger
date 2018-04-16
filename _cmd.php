@@ -14,14 +14,9 @@ require_once("_settings.php");
 
 class _cmd
 {
-    public static function executeCommand($cmd)
+    public static function launchNTOPNG()
     {
-        if(exec('start cmd.exe @cmd /k "'.$cmd.'"')){
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        exec(_settings::CMD_STRING);
+        return true;
     }
 }

@@ -9,14 +9,15 @@
  */
 
 namespace ntopngLogger;
-require_once("_settings.php");
 require_once("_cmd.php");
+require_once ("_scraper.php");
+require_once ("_logger.php");
 
-if(_cmd::executeCommand(_settings::CMD_STRING)) {
+if(_cmd::launchNTOPNG()) {
     while(true) {
-        echo("loop");
-        print_r(file_get_contents("http://localhost:3000/lua/host_get_json.lua?ifid=0&host=108.50.203.80"));
-        sleep(10);
+        //_logger::writeLog(_scraper::scrapeJSON());
+        file_put_contents("/logs/log.txt", _scraper::scrapeJSON() . "\n-----------------------------------------------------------------------------------------" . PHP_EOL, FILE_APPEND);
+        sleep(5);
     }
 }
 

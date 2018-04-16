@@ -13,11 +13,13 @@ namespace ntopngLogger;
 require_once("_settings.php");
 class _logger
 {
-    public static function writeLog($output)
+    public static function writeLog($json)
     {
+        $log_array = self::buildLogArray($json);
+
         if(_settings::LOGGER_ENABLE_FILE_OUTPUT == true && _settings::LOGGER_ENABLE_DATABASE_OUTPUT == false)
         {
-            if(self::writeLog($output))
+            if(self::writeLog($log_array))
             {
                 return true;
             }
@@ -28,7 +30,7 @@ class _logger
         }
         elseif(_settings::LOGGER_ENABLE_FILE_OUTPUT == false && _settings::LOGGER_ENABLE_DATABASE_OUTPUT == true)
         {
-            if(self::writeLogOutputDatabase($output))
+            if(self::writeLogOutputDatabase($log_array))
             {
                 return true;
             }
@@ -39,7 +41,7 @@ class _logger
         }
         elseif(_settings::LOGGER_ENABLE_FILE_OUTPUT == true && _settings::LOGGER_ENABLE_DATABASE_OUTPUT == true)
         {
-            if(self::writeLogOutputFile($output) && self::writeLogOutputDatabase($output))
+            if(self::writeLogOutputFile($log_array) && self::writeLogOutputDatabase($log_array))
             {
                 return true;
             }
@@ -52,12 +54,19 @@ class _logger
             return "!! _logger.php > NO LOGGING METHOD SPECIFIED!";
         }
     }
-    private static function writeLogOutputFile($output)
+    private static function writeLogOutputFile($log_array)
     {
     }
-    private static function writeLogOutputDatabase($output)
+    private static function writeLogOutputDatabase($log_array)
     {
         require_once("_db.php");
+    }
+    private static function buildLogArray($json)
+    {
+        $json_array = json_decode($json);
+
+        $log_array = array();
+        return $log_array;
     }
 
 }

@@ -24,6 +24,13 @@ class _settings
     const LOGGER_ENABLE_DATABASE_OUTPUT = false;
 
     /********************************************************************************************************/
+    /** SCRAPER CONSTANTS */
+
+    const SCRAPER_CURL_PORT = 3000;
+    const SCRAPER_CURL_URL = "http://localhost:3000/lua/host_get_json.lua?ifid=0&host=".self::CMD_TARGET_STREAM_IP;
+    const SCRAPER_CURL_REFERER = "Referer: http://localhost:3000/lua/host_details.lua?host=".self::CMD_TARGET_STREAM_IP;
+
+    /********************************************************************************************************/
     /** DB CONSTANTS */
 
     const DB_HOST = "localhost";
