@@ -58,15 +58,15 @@ class _logger
     private static function writeLogOutputFile($log_array)
     {
         /** CHANGE RETURN VALUE AFTER FUNCTION CONSTRUCTION */
-        $log_string = $log_array["Date"]." ".
-                      $log_array["Time"]." ".
-                      $log_array["IP_Address"]." ".
-                      $log_array["IP_Version"]." ".
-                      $log_array["MAC_Address"]." ".
-                      $log_array["ISP"]." ".
-                      $log_array["TCP_BYTES_RECV"]." ".
-                      $log_array["TCP_BYTES_SENT"]." ".
-                      $log_array["CURRENT_BANDWIDTH_RECV"]." ".
+        $log_string = $log_array["Date"]."\t".
+                      $log_array["Time"]."\t".
+                      $log_array["IP_Address"]."\t".
+                      $log_array["IP_Version"]."\t".
+                      $log_array["MAC_Address"]."\t".
+                      $log_array["ISP"]."\t".
+                      $log_array["TCP_BYTES_RECV"]."\t".
+                      $log_array["TCP_BYTES_SENT"]."\t".
+                      $log_array["CURRENT_BANDWIDTH_RECV"]."\t".
                       $log_array["CURRENT_BANDWIDTH_SENT"].PHP_EOL;
 
         file_put_contents(_settings::LOGGER_EXPORT_FILE,$log_string,FILE_APPEND);
@@ -116,7 +116,7 @@ class _logger
     }
     private static function readLineToArray($line)
     {
-        $log_line_array = explode(" ",$line);
+        $log_line_array = explode("\t",$line);
         $log_line_array_parsed =
             array(
             "Date" => $log_line_array[0],
