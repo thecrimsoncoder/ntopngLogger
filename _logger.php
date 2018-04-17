@@ -65,7 +65,11 @@ class _logger
                       $log_array["MAC_Address"]." ".
                       $log_array["ISP"]." ".
                       $log_array["TCP_BYTES_RECV"]." ".
-                      $log_array["TCP_BYTES_SENT"].PHP_EOL,FILE_APPEND;
+                      $log_array["TCP_BYTES_SENT"]." ".
+                      $log_array["CURRENT_BANDWIDTH_RECV"]." ".
+                      $log_array["CURRENT_BANDWIDTH_SENT"].PHP_EOL;
+
+        file_put_contents(_settings::LOGGER_EXPORT_FILE,$log_string,FILE_APPEND);
         return true;
     }
     private static function writeLogOutputDatabase($log_array)
@@ -90,8 +94,8 @@ class _logger
             "ISP" => $json_array["asname"],
             "TCP_BYTES_RECV" => $json_array["tcp_sent"]["bytes"],
             "TCP_BYTES_SENT" => $json_array["tcp_rcvd"]["bytes"],
-            "CURRENT_BANDWIDTH_RECV" => ($json_array["tcp_sent"]-$last_update["CURRENT_BANDWIDTH_RECV"])/5,
-            "CURRENT_BANDWIDTH_SENT" => ($json_array["tcp_rcvd"]-$last_update["CURRENT_BANDWIDTH_SENT"])/5,
+            "CURRENT_BANDWIDTH_RECV" => ($json_array["tcp_sent"]["bytes"] - $last_update["CURRENT_BANDWIDTH_RECV"])/5,
+            "CURRENT_BANDWIDTH_SENT" => ($json_array["tcp_rcvd"]["bytes"] - $last_update["CURRENT_BANDWIDTH_SENT"])/5
         );
         return $log_array;
     }
@@ -113,7 +117,7 @@ class _logger
     private static function readLineToArray($line)
     {
         $log_line_array = explode(" ",$line);
-        return
+        $log_line_array_parsed =
             array(
             "Date" => $log_line_array[0],
             "Time" => $log_line_array[1],
@@ -124,14 +128,16 @@ class _logger
             "TCP_BYTES_RECV" => $log_line_array[6],
             "TCP_BYTES_SENT" => $log_line_array[7],
             "CURRENT_BANDWIDTH_RECV" => $log_line_array[8],
-            "CURRENT_BANDWIDTH_SENT" => $log_line_array[9],
+            "CURRENT_BANDWIDTH_SENT" => $log_line_array[9]
         );
+        echo("DEBUG");
+        print_r($log_line_array_parsed);
+        return $log_line_array_parsed;
+
     }
     private static function readLastUpdateFile()
     {
-        $file_line = file(_settings::LOGGER_EXPORT_FILE);
-
-        if(!$file_line)
+        if(!file_exists(_settings::LOGGER_EXPORT_FILE))
         {
             return
                 array(
@@ -144,12 +150,13 @@ class _logger
                 "TCP_BYTES_RECV" => "",
                 "TCP_BYTES_SENT" => "",
                 "CURRENT_BANDWIDTH_RECV" => 0,
-                "CURRENT_BANDWIDTH_SENT" => 0,
+                "CURRENT_BANDWIDTH_SENT" => 0
             );
         }
         else
         {
-            $parsed_line = self::readLineToArray($file_line[count($file_line - 1)]);
+            $file_line = file(_settings::LOGGER_EXPORT_FILE);
+            $parsed_line = self::readLineToArray($file_line[count($file_line)-1]);
             return $parsed_line;
         }
 
