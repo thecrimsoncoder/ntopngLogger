@@ -15,7 +15,7 @@ require_once ("_logger.php");
 
 if(_cmd::launchNTOPNG()) {
     sleep(5);
-    echo("Start\n");
+    echo(">> Starting ntopngLogger <<\n");
     while(true) {
         _logger::writeLog(_scraper::scrapeJSON());
         sleep(5);

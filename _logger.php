@@ -16,7 +16,6 @@ class _logger
     public static function writeLog($json)
     {
         $log_array = self::buildLogArray($json);
-        print_r($log_array);
 
         if(_settings::LOGGER_ENABLE_FILE_OUTPUT == true && _settings::LOGGER_ENABLE_DATABASE_OUTPUT == false)
         {
@@ -64,11 +63,11 @@ class _logger
                       $log_array["IP_Version"]."\t".
                       $log_array["MAC_Address"]."\t".
                       $log_array["ISP"]."\t".
-                      $log_array["TCP_BYTES_RECV"]."\t".
-                      $log_array["TCP_BYTES_SENT"]."\t".
-                      $log_array["CURRENT_BANDWIDTH_RECV"]."\t".
-                      $log_array["CURRENT_BANDWIDTH_SENT"].PHP_EOL;
-
+                     (int)$log_array["TCP_BYTES_RECV"]."\t".
+                     (int)$log_array["TCP_BYTES_SENT"]."\t".
+                     (int)$log_array["CURRENT_BANDWIDTH_RECV"]."\t".
+                     (int)$log_array["CURRENT_BANDWIDTH_SENT"].PHP_EOL;
+        print($log_string);
         file_put_contents(_settings::LOGGER_EXPORT_FILE,$log_string,FILE_APPEND);
         return true;
     }
@@ -92,10 +91,10 @@ class _logger
             "IP_Version" => $json_array["ip"]["ipVersion"],
             "MAC_Address" => $json_array["mac_address"],
             "ISP" => $json_array["asname"],
-            "TCP_BYTES_RECV" => $json_array["tcp_sent"]["bytes"],
-            "TCP_BYTES_SENT" => $json_array["tcp_rcvd"]["bytes"],
-            "CURRENT_BANDWIDTH_RECV" => ($json_array["tcp_sent"]["bytes"] - $last_update["CURRENT_BANDWIDTH_RECV"])/5,
-            "CURRENT_BANDWIDTH_SENT" => ($json_array["tcp_rcvd"]["bytes"] - $last_update["CURRENT_BANDWIDTH_SENT"])/5
+            "TCP_BYTES_RECV" => (int)$json_array["tcp_sent"]["bytes"],
+            "TCP_BYTES_SENT" => (int)$json_array["tcp_rcvd"]["bytes"],
+            "CURRENT_BANDWIDTH_RECV" => round((((int)$json_array["tcp_sent"]["bytes"] - (int)$last_update["CURRENT_BANDWIDTH_RECV"])/1000)/5),
+            "CURRENT_BANDWIDTH_SENT" => round((((int)$json_array["tcp_rcvd"]["bytes"] - (int)$last_update["CURRENT_BANDWIDTH_SENT"])/1000)/5)
         );
         return $log_array;
     }
@@ -125,13 +124,12 @@ class _logger
             "IP_Version" => $log_line_array[3],
             "MAC_Address" => $log_line_array[4],
             "ISP" => $log_line_array[5],
-            "TCP_BYTES_RECV" => $log_line_array[6],
-            "TCP_BYTES_SENT" => $log_line_array[7],
-            "CURRENT_BANDWIDTH_RECV" => $log_line_array[8],
-            "CURRENT_BANDWIDTH_SENT" => $log_line_array[9]
+            "TCP_BYTES_RECV" => (int)$log_line_array[6],
+            "TCP_BYTES_SENT" => (int)$log_line_array[7],
+            "CURRENT_BANDWIDTH_RECV" => (int)$log_line_array[8],
+            "CURRENT_BANDWIDTH_SENT" => (int)$log_line_array[9]
         );
-        echo("DEBUG");
-        print_r($log_line_array_parsed);
+
         return $log_line_array_parsed;
 
     }
@@ -141,17 +139,9 @@ class _logger
         {
             return
                 array(
-                "Date" => "",
-                "Time" => "",
-                "IP_Address" => "",
-                "IP_Version" => "",
-                "MAC_Address" => "",
-                "ISP" => "",
-                "TCP_BYTES_RECV" => "",
-                "TCP_BYTES_SENT" => "",
                 "CURRENT_BANDWIDTH_RECV" => 0,
                 "CURRENT_BANDWIDTH_SENT" => 0
-            );
+                );
         }
         else
         {

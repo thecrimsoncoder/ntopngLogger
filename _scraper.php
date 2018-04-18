@@ -39,7 +39,8 @@ class _scraper
                                         "Upgrade-Insecure-Requests: 1",
                                         "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
                                     ),
-                            ));
+                            )
+        );
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
@@ -47,7 +48,7 @@ class _scraper
         curl_close($curl);
 
         if ($err) {
-            echo "cURL Error #:" . $err;
+            echo("!! _cmd.php > cURL Error: ".$err);
             return false;
         }
         else {

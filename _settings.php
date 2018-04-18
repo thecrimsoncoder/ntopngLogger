@@ -14,7 +14,7 @@ class _settings
     /** CMD CONSTANTS */
 
     const CMD_TARGET_STREAM_IP = "70.91.56.203";
-    const CMD_CAPUTURE_INTERFACE = 4;
+    const CMD_CAPUTURE_INTERFACE = 2;
     const CMD_STRING = 'ntopng /c -i '.self::CMD_CAPUTURE_INTERFACE.' -B "src host '.self::CMD_TARGET_STREAM_IP.' or dst host '.self::CMD_TARGET_STREAM_IP.'" --disable-login 0 --community';
 
     /********************************************************************************************************/
