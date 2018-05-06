@@ -91,8 +91,8 @@ class _logger
             "IP_Version" => $json_array["ip"]["ipVersion"],
             "MAC_Address" => $json_array["mac_address"],
             "ISP" => $json_array["asname"],
-            "TCP_BYTES_RECV" => (int)$json_array["tcp_sent"]["bytes"],
-            "TCP_BYTES_SENT" => (int)$json_array["tcp_rcvd"]["bytes"],
+            "TCP_BYTES_RECV" => (int)$json_array["tcp_sent"]["bytes"]/1000,
+            "TCP_BYTES_SENT" => (int)$json_array["tcp_rcvd"]["bytes"]/1000,
             "CURRENT_BANDWIDTH_RECV" => round((((int)$json_array["tcp_sent"]["bytes"] - (int)$last_update["CURRENT_BANDWIDTH_RECV"])/1000)/5),
             "CURRENT_BANDWIDTH_SENT" => round((((int)$json_array["tcp_rcvd"]["bytes"] - (int)$last_update["CURRENT_BANDWIDTH_SENT"])/1000)/5)
         );
@@ -115,6 +115,7 @@ class _logger
     }
     private static function readLineToArray($line)
     {
+        /* Tokenize on Tab */
         $log_line_array = explode("\t",$line);
         $log_line_array_parsed =
             array(
